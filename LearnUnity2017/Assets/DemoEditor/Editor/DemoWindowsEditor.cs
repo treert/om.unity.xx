@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.Reflection;
 
 public class DemoWindowsEditor : EditorWindow
 {
@@ -20,6 +21,20 @@ public class DemoWindowsEditor : EditorWindow
         window.Show();
     }
 
+    List<MethodInfo> m_test_methods = new List<MethodInfo>();
+    public DemoWindowsEditor()
+    {
+        var cls = typeof(DemoWindowsEditor);
+        var methods = cls.GetMethods(BindingFlags.DeclaredOnly | BindingFlags.NonPublic| BindingFlags.Instance);
+        foreach(var m in methods)
+        {
+            if (m.Name.StartsWith("Test"))
+            {
+                m_test_methods.Add(m);
+            }
+        }
+    }
+
     private void OnGUI()
     {
         AddUIToToolBar();
@@ -30,6 +45,15 @@ public class DemoWindowsEditor : EditorWindow
             EditorUtility.DisplayDialog("提示确认", "确认", "OK");
         }
         GUILayout.EndHorizontal();
+
+        
+        if(m_test_methods.Count > 0)
+        {
+            foreach(var m in m_test_methods)
+            {
+                m.Invoke(this, new object[] { });
+            }
+        }
     }
 
     /// <summary>
@@ -58,6 +82,16 @@ public class DemoWindowsEditor : EditorWindow
             if (GUILayout.Button("Build", EditorStyles.toolbarButton))
             {
             }
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    void TestShowNotification()
+    {
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("TestShowNotification"))
+        {
+            ShowNotification(new GUIContent("提示一行字"));
         }
         GUILayout.EndHorizontal();
     }
