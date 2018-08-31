@@ -22,6 +22,8 @@ public class DemoWindowsEditor : EditorWindow
 
     private void OnGUI()
     {
+        AddUIToToolBar();
+
         GUILayout.BeginHorizontal();
         if(GUILayout.Button("Test"))
         {
@@ -38,5 +40,25 @@ public class DemoWindowsEditor : EditorWindow
         // Call Repaint on OnInspectorUpdate as it repaints the windows
         // less times as if it was OnGUI/Update
         Repaint();
+    }
+
+    void AddUIToToolBar()
+    {
+        //tool bar
+        GUILayout.BeginHorizontal(EditorStyles.toolbar);
+        {
+            if (GUILayout.Button("Add", EditorStyles.toolbarButton))
+            {
+
+            }
+            if (GUILayout.Button("Save", EditorStyles.toolbarButton))
+            {
+            }
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Build", EditorStyles.toolbarButton))
+            {
+            }
+        }
+        GUILayout.EndHorizontal();
     }
 }
