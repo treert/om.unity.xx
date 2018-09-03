@@ -22,6 +22,7 @@ public class GUIToolScript : MonoBehaviour {
         {
             var go = new GameObject("TestMono");
             go.AddComponent<TestMonoScript>();
+            go.AddComponent<TestMonoScript2>();
             Debug.Log("After AddTestMono");
             _last_test_mono_obj = go;
         }
