@@ -35,15 +35,18 @@ public class ABBuild : EditorWindow {
         });
         Directory.CreateDirectory("AssetBundles");
         var meta = BuildPipeline.BuildAssetBundles("AssetBundles",list.ToArray(), BuildAssetBundleOptions.UncompressedAssetBundle, EditorUserBuildSettings.activeBuildTarget);
-        string ab_path = "AssetBundles/imgcontain12.prefab";
-        Hash128 hash1 = new Hash128();
-        if(BuildPipeline.GetHashForAssetBundle(ab_path, out hash1))
-        {
-        }
+        //string ab_path = "AssetBundles/imgcontain12.prefab";
+        //Hash128 hash1 = new Hash128();
+        //if(BuildPipeline.GetHashForAssetBundle(ab_path, out hash1))
+        //{
+        //}
+        //AssetBundle.UnloadAllAssetBundles(true);
+        //var ab = AssetBundle.LoadFromFile("AssetBundles/imgcontain12.prefab");
+        //var objs = ab.LoadAllAssets();
 
-        Hash128 hash2 = meta.GetAssetBundleHash("imgcontain12.prefab");
+        //Hash128 hash2 = meta.GetAssetBundleHash("imgcontain12.prefab");
 
-        var abs = meta.GetAllAssetBundles();
+        //var abs = meta.GetAllAssetBundles();
     }
 
     void EnumObjectsFromDir(string dir, Action<string> cb)
