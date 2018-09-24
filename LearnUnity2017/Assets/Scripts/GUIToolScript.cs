@@ -15,9 +15,11 @@ public class GUIToolScript : MonoBehaviour {
 		
 	}
 
-    GameObject _last_test_mono_obj = null;
+    public GameObject _last_test_mono_obj = null;
     AssetBundle _ab = null;
     Object _ab_obj = null;
+
+    public GameObject _editor_load_go = null;
     private void OnGUI()
     {
         GUILayout.BeginHorizontal();
@@ -48,9 +50,9 @@ public class GUIToolScript : MonoBehaviour {
                 Resources.UnloadAsset(img);
             }
         }
-        GUILayout.BeginHorizontal();
-        GUILayout.Space(10);
         GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
         if (GUILayout.Button("bundle 1 loadfromfile"))
         {
             if(_ab == null)
@@ -73,6 +75,17 @@ public class GUIToolScript : MonoBehaviour {
                 _ab = null;
                 _ab_obj = null;
             }
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.Space(10);
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("editor loadfromfile"))
+        {
+            if(_editor_load_go == null)
+            {
+                _editor_load_go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ABMgr/Res/Prefab/ImgContain12.prefab");
+            }
+            GameObject.Instantiate(_editor_load_go,GameObject.Find("Canvas").transform);
         }
         GUILayout.EndHorizontal();
     }
