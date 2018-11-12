@@ -145,6 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955a99e8faf002144868d5f3b9a662f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _last_test_mono_obj: {fileID: 0}
+  _editor_load_go: {fileID: 0}
 --- !u!4 &110303454
 Transform:
   m_ObjectHideFlags: 0
@@ -255,7 +257,8 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114726575565991362, guid: 02fd1864e2ceffb479abe73940914d24, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 02fd1864e2ceffb479abe73940914d24, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &251602116

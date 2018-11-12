@@ -22,4 +22,9 @@ public class TestMonoScript : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    private void OnDisable()
+    {
+        Debug.Log("TestMono OnDisable");
+    }
 }
