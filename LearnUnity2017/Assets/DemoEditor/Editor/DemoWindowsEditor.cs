@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Reflection;
+using UnityEditorInternal;
 
 public class DemoWindowsEditor : EditorWindow
 {
@@ -17,7 +18,7 @@ public class DemoWindowsEditor : EditorWindow
     {
         // Get existing open window or if none, make a new one:
         var window = EditorWindow.GetWindow<DemoWindowsEditor>("DemosEditorWindows");
-        window.minSize = new Vector2(300, 600);
+        window.minSize = new Vector2(800, 600);
         window.Show();
     }
 
@@ -38,14 +39,6 @@ public class DemoWindowsEditor : EditorWindow
     private void OnGUI()
     {
         AddUIToToolBar();
-
-        GUILayout.BeginHorizontal();
-        if(GUILayout.Button("Test"))
-        {
-            EditorUtility.DisplayDialog("提示确认", "确认", "OK");
-        }
-        GUILayout.EndHorizontal();
-
         
         if(m_test_methods.Count > 0)
         {
@@ -82,6 +75,61 @@ public class DemoWindowsEditor : EditorWindow
             if (GUILayout.Button("Build", EditorStyles.toolbarButton))
             {
             }
+        }
+        GUILayout.EndHorizontal();
+    }
+
+    void TestDownList()
+    {
+        if (XEditorTools.DrawHeader("TestDownList"))
+        {
+            EditorGUILayout.PrefixLabel("AnyThing");
+            EditorGUILayout.RectField("RectField", new Rect(1, 2, 3, 4));
+        }
+    }
+
+    ReorderableList _reorder_list;
+    void TestReorderableList()
+    {
+        if (XEditorTools.DrawHeader("TestReorderableList") == false)
+        {
+            return;
+        }
+        XEditorTools.BeginContents();
+        if (_reorder_list == null)
+        {
+            List<int> list = new List<int>() {1,2,3,4,5 };
+            _reorder_list = new ReorderableList(list, typeof(string));
+            _reorder_list.draggable = true;
+            _reorder_list.elementHeight = 22;
+            _reorder_list.drawHeaderCallback = (Rect rect) =>
+            {
+                EditorGUI.LabelField(rect, "header rect=" + rect.ToString());
+            };
+            _reorder_list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
+            {
+                var element = _reorder_list.list[index];
+                var str = string.Format("rect={0} index={1} isActive={2} isFocused={3} value={4}", rect, index, isActive, isFocused, element);
+                //EditorGUILayout.PrefixLabel(str);
+                Rect r = rect;
+                r.width = 16;
+                EditorGUI.Toggle(r, index > 1);
+                r.x += 18;
+                r.width = rect.width - 18;
+                EditorGUI.TextField(r, str);
+
+            };
+        }
+        _reorder_list.DoLayoutList();
+        XEditorTools.EndContents();
+    }
+
+    void TestDisplayDialog()
+    {
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Test"))
+        {
+            EditorUtility.DisplayDialog("提示确认", "确认", "OK");
         }
         GUILayout.EndHorizontal();
     }
