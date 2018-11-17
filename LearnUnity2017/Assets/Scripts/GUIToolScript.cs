@@ -81,11 +81,13 @@ public class GUIToolScript : MonoBehaviour {
         GUILayout.BeginHorizontal();
         if(GUILayout.Button("editor loadfromfile"))
         {
-            if(_editor_load_go == null)
+#if UNITY_EDITOR
+            if (_editor_load_go == null)
             {
                 _editor_load_go = UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/ABMgr/Res/Prefab/ImgContain12.prefab");
             }
             GameObject.Instantiate(_editor_load_go,GameObject.Find("Canvas").transform);
+#endif
         }
         GUILayout.EndHorizontal();
     }
