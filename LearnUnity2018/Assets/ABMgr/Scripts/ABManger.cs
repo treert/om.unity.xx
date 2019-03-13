@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DemoWindows : MonoBehaviour {
+public class ABManger : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

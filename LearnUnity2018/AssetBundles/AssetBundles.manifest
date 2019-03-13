@@ -1,0 +1,47 @@
+ManifestFileVersion: 0
+CRC: 2306920503
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: bg1.jpg
+      Dependencies: {}
+    Info_1:
+      Name: bg10.jpg
+      Dependencies: {}
+    Info_2:
+      Name: bg2.jpg
+      Dependencies: {}
+    Info_3:
+      Name: bg3.jpg
+      Dependencies: {}
+    Info_4:
+      Name: bg4.jpg
+      Dependencies: {}
+    Info_5:
+      Name: bg5.jpg
+      Dependencies: {}
+    Info_6:
+      Name: bg6.jpg
+      Dependencies: {}
+    Info_7:
+      Name: bg7.jpg
+      Dependencies: {}
+    Info_8:
+      Name: bg8.jpg
+      Dependencies: {}
+    Info_9:
+      Name: bg9.jpg
+      Dependencies: {}
+    Info_10:
+      Name: uiimg.mat
+      Dependencies: {}
+    Info_11:
+      Name: imgcontain12.prefab
+      Dependencies:
+        Dependency_0: bg1.jpg
+        Dependency_1: uiimg.mat
+    Info_12:
+      Name: imgcontain34.prefab
+      Dependencies:
+        Dependency_0: bg1.jpg
+        Dependency_1: uiimg.mat

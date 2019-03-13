@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 1197875519
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 406785c7c66f0a762a66afc6a4bb3920
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 872b6d5029ab976c44a86dc73685e868
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ff89d7a9a94957346ab0f805fe39d8b1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/ABMgr/Res/Prefab/ImgContain34.prefab
+Dependencies:
+- E:/MyGit/om.unity.xx/LearnUnity2018/AssetBundles/bg1.jpg
+- E:/MyGit/om.unity.xx/LearnUnity2018/AssetBundles/uiimg.mat
