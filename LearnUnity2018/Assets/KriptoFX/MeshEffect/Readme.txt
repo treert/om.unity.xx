@@ -1,4 +1,6 @@
-version 1.3.1
+version 1.3.2
+
+Supported UI 3D-System https://assetstore.unity.com/packages/tools/gui/ui-3d-system-109573
 
 The package includes prefabs of mesh effects and demo scenes for pc/mobiles with characters and environment.
 

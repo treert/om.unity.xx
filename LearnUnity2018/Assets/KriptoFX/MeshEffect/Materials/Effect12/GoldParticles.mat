@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MeshMesh_MeshEffect1
+  m_Name: GoldParticles
   m_Shader: {fileID: 4800000, guid: 33ab0d28c1b9ece43ac408f2e4ad16b1, type: 3}
   m_ShaderKeywords: _ALPHATEST_ON _EMISSION
   m_LightmapFlags: 1
@@ -62,7 +62,7 @@ Material:
     m_Floats:
     - _BumpScale: 1
     - _ColorStrength: 0.39
-    - _Cutoff: 0.45
+    - _Cutoff: 0.9
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _GlossMapScale: 1
@@ -81,7 +81,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 0.69908714, b: 0.051470578, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 1, g: 0.69908714, b: 0.051470578, a: 0.43137255}
+    - _MainColor: {r: 1, g: 0.69908714, b: 0.051470578, a: 1}
     - _SpecColor: {r: 1, g: 0.8892495, b: 0.42647058, a: 1}
     - _SpeedDistort: {r: 0, g: -4, b: -1.5, a: 1}
     - _TintColor: {r: 0, g: 0, b: 0, a: 1}

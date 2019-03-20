@@ -1,12 +1,21 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "KriptoFX/ME/SlimeMobile" {
+Shader "KriptoFX/ME/UI3D/SlimeMobile" {
 	Properties{
-			_TintColor("Main Color", Color) = (1,1,1,1)
-			_MainTex("Base (RGB) Emission Tex (A)", 2D) = "white" {}
-			_CutOut("CutOut (A)", 2D) = "white" {}
-			_BumpMap("Normalmap", 2D) = "bump" {}
-			_BumpAmt("Distortion", Float) = 10
+		_TintColor("Main Color", Color) = (1,1,1,1)
+		_MainTex("Base (RGB) Emission Tex (A)", 2D) = "white" {}
+		_CutOut("CutOut (A)", 2D) = "white" {}
+		_BumpMap("Normalmap", 2D) = "bump" {}
+		_BumpAmt("Distortion", Float) = 10
+		/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+		[Space]
+		[Toggle(DISABLE_UI_CULLING)] _DisableCulling("Disable culling? (disables UI depth test)", Float) = 0
+		[Toggle(CAST_UI_CULLING_TO_SCREEN_SPACE)] _CastUICullingToScreen("Cast UI culling to screen space", Float) = 0
+						
+		[HideInInspector][Toggle(USE_CLIPPING_MASK)] _UseClippingMask("UseClippingMask?", Float) = 0
+		[HideInInspector]_ClippingMaskVal("_ClippingMaskVal", Range(0,1)) = 1
+		[HideInInspector][KeywordEnum(Inside, Outside)] ClippingMode ("Clipping mode", Float) = 0
+		/*END*/
 	}
 		Category{
 
@@ -23,9 +32,18 @@ Shader "KriptoFX/ME/SlimeMobile" {
 					#pragma vertex vert
 					#pragma fragment frag
 					//#pragma target 3.0
-
-					#include "UnityCG.cginc"
 					#pragma multi_compile _ DISTORT_OFF
+				
+					/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+					#pragma shader_feature _ DISABLE_UI_CULLING
+					#pragma shader_feature _ USE_CLIPPING_MASK
+					#pragma shader_feature _ CAST_UI_CULLING_TO_SCREEN_SPACE
+					#pragma shader_feature CLIPPINGMODE_INSIDE CLIPPINGMODE_OUTSIDE
+
+					#define IS_UI_3D_RENDERER
+					#include "UnityCG.cginc"
+					#include "Assets/Plugins/UI3DSystem/Shaders/UIDepthLib.cginc"
+					/*END*/
 
 					sampler2D _MainTex;
 					sampler2D _BumpMap;
@@ -54,6 +72,8 @@ Shader "KriptoFX/ME/SlimeMobile" {
 						half2 uv_CutOut : TEXCOORD2;
 						half4 grab : TEXCOORD3;
 						fixed4 color : COLOR;
+						float2 depthTexUV : TEXCOORD5;
+						float worldZPos : TEXCOORD6;
 					};
 
 					float4 _MainTex_ST;
@@ -77,7 +97,10 @@ Shader "KriptoFX/ME/SlimeMobile" {
 		#endif
 
 						o.color = v.color;
-
+						
+						float3 wPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+						o.worldZPos = wPos.z;
+						o.depthTexUV = calcUIDepthTexUv(wPos, svPositionUIToScreenPos(o.vertex));
 						return o;
 					}
 
@@ -86,6 +109,7 @@ Shader "KriptoFX/ME/SlimeMobile" {
 					#ifdef DISTORT_OFF 
 						return 0;
 					#endif
+						makeUI3DClipping(i.depthTexUV, i.worldZPos);
 						half4 tex = tex2D(_MainTex, i.uv_MainTex);
 						half4 c = tex * _TintColor;
 						half4 cut = tex2D(_CutOut, i.uv_CutOut);
@@ -105,4 +129,5 @@ Shader "KriptoFX/ME/SlimeMobile" {
 				}
 			}
 			}
+	CustomEditor "UIUnlitShaderEditor"
 }

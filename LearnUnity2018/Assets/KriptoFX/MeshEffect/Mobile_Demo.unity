@@ -742,7 +742,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2063314627}
-  - component: {fileID: 2063314626}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -750,25 +749,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2063314626
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 114779601091046802, guid: 1fc39531b12379149ad9d6209d1162b9,
-    type: 2}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2063314625}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f512a2ad3769aa47be69b9cc2cc6cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 1632400107}
-  distance: 3.5
-  xSpeed: 250
-  ySpeed: 120
-  yMinLimit: -20
-  yMaxLimit: 80
 --- !u!4 &2063314627
 Transform:
   m_ObjectHideFlags: 0

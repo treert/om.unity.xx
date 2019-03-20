@@ -1,17 +1,27 @@
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
-Shader "KriptoFX/ME/DistortPerlinMobile" {
+Shader "KriptoFX/ME/UI3D/DistortPerlinMobile" {
 	Properties{
-			_TintColor("Main Color", Color) = (1,1,1,1)
-			[HDR]_RimColor("Rim Color", Color) = (1,1,1,0.5)
-			_BumpMap("Normalmap", 2D) = "bump" {}
-			_PerlinNoise("Perlin Noise Map (r)", 2D) = "white" {}
-			_DropWavesScale("Waves Scale (X) Height (YZ) Time (W)", Vector) = (1, 1, 1, 1)
-			_NoiseScale("Noize Scale (XYZ) Height (W)", Vector) = (1, 1, 1, 0.2)
-			_Speed("Distort Direction Speed (XY)", Vector) = (1,0,0,0)
-			_FPOW("FPOW Fresnel", Float) = 5.0
-			_R0("R0 Fresnel", Float) = 0.05
-			_BumpAmt("Distortion Scale", Float) = 10
+		_TintColor("Main Color", Color) = (1,1,1,1)
+		[HDR]_RimColor("Rim Color", Color) = (1,1,1,0.5)
+		_BumpMap("Normalmap", 2D) = "bump" {}
+		_PerlinNoise("Perlin Noise Map (r)", 2D) = "white" {}
+		_DropWavesScale("Waves Scale (X) Height (YZ) Time (W)", Vector) = (1, 1, 1, 1)
+		_NoiseScale("Noize Scale (XYZ) Height (W)", Vector) = (1, 1, 1, 0.2)
+		_Speed("Distort Direction Speed (XY)", Vector) = (1,0,0,0)
+		_FPOW("FPOW Fresnel", Float) = 5.0
+		_R0("R0 Fresnel", Float) = 0.05
+		_BumpAmt("Distortion Scale", Float) = 10
+
+		/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+		[Space]
+		[Toggle(DISABLE_UI_CULLING)] _DisableCulling("Disable culling? (disables UI depth test)", Float) = 0
+		[Toggle(CAST_UI_CULLING_TO_SCREEN_SPACE)] _CastUICullingToScreen("Cast UI culling to screen space", Float) = 0
+						
+		[HideInInspector][Toggle(USE_CLIPPING_MASK)] _UseClippingMask("UseClippingMask?", Float) = 0
+		[HideInInspector]_ClippingMaskVal("_ClippingMaskVal", Range(0,1)) = 1
+		[HideInInspector][KeywordEnum(Inside, Outside)] ClippingMode ("Clipping mode", Float) = 0
+		/*END*/
 	}
 		Category{
 
@@ -27,7 +37,16 @@ Shader "KriptoFX/ME/DistortPerlinMobile" {
 					#pragma fragment frag
 					#pragma target 3.0
 					#pragma multi_compile _ DISTORT_OFF
+					/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+					#pragma shader_feature _ DISABLE_UI_CULLING
+					#pragma shader_feature _ USE_CLIPPING_MASK
+					#pragma shader_feature _ CAST_UI_CULLING_TO_SCREEN_SPACE
+					#pragma shader_feature CLIPPINGMODE_INSIDE CLIPPINGMODE_OUTSIDE
+
+					#define IS_UI_3D_RENDERER
 					#include "UnityCG.cginc"
+					#include "Assets/Plugins/UI3DSystem/Shaders/UIDepthLib.cginc"
+					/*END*/
 
 					sampler2D _BumpMap;
 					sampler2D _PerlinNoise;
@@ -62,6 +81,8 @@ Shader "KriptoFX/ME/DistortPerlinMobile" {
 						half3 viewDir : TEXCOORD3;
 						fixed4 color : COLOR;
 						half4 localPos : TEXCOORD4;
+						float2 depthTexUV : TEXCOORD5;
+						float worldZPos : TEXCOORD6;
 					};
 
 					v2f vert(appdata_full v)
@@ -82,6 +103,10 @@ Shader "KriptoFX/ME/DistortPerlinMobile" {
 						o.vertex = UnityObjectToClipPos(v.vertex);
 						//////////////////////////////////////////////////////////////
 
+						wpos = mul(unity_ObjectToWorld, v.vertex).xyz;
+						o.worldZPos = wpos.z;
+						o.depthTexUV = calcUIDepthTexUv(wpos, svPositionUIToScreenPos(o.vertex));
+
 						oPos += o.vertex;
 						o.grab.xy = (float2(oPos.x, oPos.y * _ProjectionParams.x) + oPos.w) * 0.5;
 						o.grab.zw = oPos.w;
@@ -101,6 +126,9 @@ Shader "KriptoFX/ME/DistortPerlinMobile" {
 					#ifdef DISTORT_OFF 
 						return 0;
 					#endif
+
+						makeUI3DClipping(i.depthTexUV, i.worldZPos);
+
 						fixed3 normal = UnpackNormal(tex2D(_BumpMap, i.uv_BumpMap));
 						#ifdef UNITY_UV_STARTS_AT_TOP
 							half3 n = normalize(cross(ddx(i.localPos.xyz), ddy(i.localPos.xyz) * _ProjectionParams.x ));
@@ -125,4 +153,5 @@ Shader "KriptoFX/ME/DistortPerlinMobile" {
 				}
 			}
 			}
+	CustomEditor "UIUnlitShaderEditor"
 }

@@ -1,4 +1,4 @@
-Shader "KriptoFX/ME/DistortionMobile"
+Shader "KriptoFX/ME/UI3D/DistortionMobile"
 {
 	Properties
 	{	[Header(Main Settings)]
@@ -45,6 +45,17 @@ Shader "KriptoFX/ME/DistortionMobile"
 		[Toggle(USE_ALPHA_CLIPING)] _UseAlphaCliping("Use Alpha Cliping", Int) = 0
 		_AlphaClip ("Alpha Clip Threshold", Float) = 10
 		[Toggle(USE_BLENDING)] _UseBlending("Use Blending", Int) = 0
+			
+		/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+		[Space]
+		[Toggle(DISABLE_UI_CULLING)] _DisableCulling("Disable culling? (disables UI depth test)", Float) = 0
+		[Toggle(CAST_UI_CULLING_TO_SCREEN_SPACE)] _CastUICullingToScreen("Cast UI culling to screen space", Float) = 0
+						
+		[HideInInspector][Toggle(USE_CLIPPING_MASK)] _UseClippingMask("UseClippingMask?", Float) = 0
+		[HideInInspector]_ClippingMaskVal("_ClippingMaskVal", Range(0,1)) = 1
+		[HideInInspector][KeywordEnum(Inside, Outside)] ClippingMode ("Clipping mode", Float) = 0
+		/*END*/
+
 	}
 	SubShader
 	{
@@ -88,13 +99,23 @@ Shader "KriptoFX/ME/DistortionMobile"
 			{ 
 				return (float2(vertex.x, vertex.y*_ProjectionParams.x) + vertex.w) * 0.5;
 			}
+						
+			/*USE THIS PART TO MAKE CUSTOM UNLIT SHADER WITH UI CULLING*/
+			#pragma shader_feature _ DISABLE_UI_CULLING
+			#pragma shader_feature _ USE_CLIPPING_MASK
+			#pragma shader_feature _ CAST_UI_CULLING_TO_SCREEN_SPACE
+			#pragma shader_feature CLIPPINGMODE_INSIDE CLIPPINGMODE_OUTSIDE
+
+			#define IS_UI_3D_RENDERER
 
 			#include "UnityCG.cginc"
-			#include "ME_DistortPasses.cginc"
+			#include "Assets/Plugins/UI3DSystem/Shaders/UIDepthLib.cginc"
+			/*END*/
+			#include "UI3D_ME_DistortPasses.cginc"
 
 			ENDCG
 		}
 	}
-
-		CustomEditor "ME_CustomShaderGUI"
+		
+	CustomEditor "UIUnlitShaderEditor"
 }

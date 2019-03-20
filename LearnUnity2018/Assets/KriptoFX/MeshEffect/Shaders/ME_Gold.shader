@@ -1,4 +1,4 @@
-﻿Shader "KriptoFX/ME/Gold" {
+Shader "KriptoFX/ME/Gold" {
 	Properties {
 		_MainColor("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -35,7 +35,7 @@
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			fixed4 mask = tex2D (_MainTex, IN.uv_MainTex + _Time.x * _SpeedDistort.xy);
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex + mask * _SpeedDistort.zw -  _Time.x * _SpeedDistort.xy  * 1.4);
-			if(c.r > _MainColor.a - (1-_Cutoff)) discard;
+			if(c.r > _MainColor.a - (1- _Cutoff)) discard;
 			o.Albedo = _MainColor;
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;

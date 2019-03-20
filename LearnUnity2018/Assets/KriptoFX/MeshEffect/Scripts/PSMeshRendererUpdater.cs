@@ -41,10 +41,13 @@ public class PSMeshRendererUpdater : MonoBehaviour
             var currentParticles = GetComponentsInChildren<ParticleSystem>();
             foreach (var ps in currentParticles)
             {
-                if (currentActiveStatus) ps.Play();
-                else
+                if (currentActiveStatus)
                 {
                     ps.Clear();
+                    ps.Play();
+                }
+                else
+                {
                     ps.Stop();
                 }
             }

@@ -9,10 +9,10 @@ public class ME_CustomMaterialInspectorParticle : MaterialEditor
     private int srcMode = 1;
     private int dstMode = 1;
     private int cullMode = 2;
-    private string[] blendMode = { "Additive", "Alpha Blend", "Mul", "Mul2" };
+    private string[] blendMode = { "Additive", "Alpha Blend", "Mul"};
     private string[] cullModeEnum = { "Cull Off", "Cull Front", "Cull Back"};
     string[] lightOptions = { "Vert OFF", "Vert ON", "Vert Normal ON"};
-    string[] lightOptionsKeyWords = { "VertLight_OFF", "VertLight4_ON", "VertLight4Normal_ON"};
+    string[] lightOptionsKeyWords = { "VertLight_OFF", "VertLight4_ON"};
     private int lightIndex;
     //private Vector2 tiling = new Vector2(800, 800);
     private bool isSoftLight;

@@ -1,18 +1,32 @@
-Shader "KriptoFX/ME/Particle" {
+Shader "KriptoFX/ME/UI3D/Particle" {
 	Properties {
 	[HDR]_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,1)
 	_MainTex ("Particle Texture", 2D) = "white" {}
 	 [HideInInspector]_Cutout ("_Cutout", Float) = 0.2
 	 [HideInInspector]_InvFade ("Soft Particles Factor", Float) = 1.0
 	 [HideInInspector]_FresnelStr ("Fresnel Strength", Float) = 1.0
-	 [HideInInspector]SrcMode ("SrcMode", int) = 5
-     [HideInInspector]DstMode ("DstMode", int) = 10
-	 [HideInInspector]CullMode ("Cull Mode", int) = 2 //0 = off, 2=back
+	CullMode ("Cull Mode", int) = 0 //0 = off, 2=back
+
+	[Space]
+	[Toggle(DISABLE_UI_CULLING)] _DisableCulling("Disable culling? (disables UI depth test)", Float) = 0
+	[Toggle(CAST_UI_CULLING_TO_SCREEN_SPACE)] _CastUICullingToScreen("Cast UI culling to screen space", Float) = 0
+
+	[Space]
+	[Enum(UnityEngine.Rendering.BlendMode)] _Blend("Blend mode", Float) = 1
+	[Enum(UnityEngine.Rendering.BlendMode)] _Blend2("Blend mode subset", Float) = 1
+			
+	[Space]
+	[Toggle(SOFT_COLLISION_MODE)] _SoftCollisionMode("Enable Soft particle?", Float) = 0
+	_UISoftModeFadeSmooth("Soft particle factor", Range(0,5)) = 1
+			
+	[HideInInspector][Toggle(USE_CLIPPING_MASK)] _UseClippingMask("UseClippingMask?", Float) = 0
+	[HideInInspector]_ClippingMaskVal("_ClippingMaskVal", Range(0,1)) = 1
+	[HideInInspector][KeywordEnum(Inside, Outside)] ClippingMode ("Clipping mode", Float) = 0
 }
 
 Category {
 	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" "RFX1"="Particle"}
-				Blend [SrcMode] [DstMode]
+				Blend [_Blend] [_Blend2]
 				Lighting On
 				Cull [CullMode] 
 				ZWrite Off
@@ -33,9 +47,19 @@ Category {
 			#pragma shader_feature Clip_OFF Clip_ON Clip_ON_Alpha
 			#pragma shader_feature FresnelFade_OFF FresnelFade_ON
 			#pragma shader_feature _MOBILEDEPTH_ON
-#pragma target 3.0
-			
+
+			#pragma shader_feature _ DISABLE_UI_CULLING
+			#pragma shader_feature _ COLORIZE
+			#pragma shader_feature _ USE_CLIPPING_MASK
+			#pragma shader_feature _ CAST_UI_CULLING_TO_SCREEN_SPACE
+			#pragma shader_feature _ SOFT_COLLISION_MODE
+			#pragma shader_feature CLIPPINGMODE_INSIDE CLIPPINGMODE_OUTSIDE
+			#define IS_UI_3D_RENDERER
 			#include "UnityCG.cginc"
+			#include "Assets/Plugins/UI3DSystem/Shaders/UIDepthLib.cginc"
+
+			#pragma target 3.0
+			
 
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
@@ -77,6 +101,8 @@ Category {
 #ifdef FresnelFade_ON
 				float fresnel : TEXCOORD4;
 #endif
+				float2 depthTexUV : TEXCOORD5;
+				float worldZPos : TEXCOORD6;
 
 			};
 
@@ -101,6 +127,7 @@ Category {
 				#ifdef VertLight4_ON
 					light = VertexLight4(vert);
 				#endif
+			
 				return light;
 			}
 
@@ -134,6 +161,10 @@ Category {
 				o.fresnel = saturate((pow(o.fresnel, _FresnelStr)) * 2);
 #endif
 				UNITY_TRANSFER_FOG(o,o.vertex);
+				
+				float3 wPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+				o.worldZPos = wPos.z;
+				o.depthTexUV = calcUIDepthTexUv(wPos, svPositionUIToScreenPos(o.vertex));
 				return o;
 			}
 			sampler2D _CameraDepthTexture;
@@ -141,6 +172,8 @@ Category {
 			
 			half4 frag (v2f i) : SV_Target
 			{
+				makeUI3DClipping(i.depthTexUV, i.worldZPos);
+
 			#ifdef SoftParticles_ON
 				#if defined (SOFTPARTICLES_ON) || defined (_MOBILEDEPTH_ON)
 					float z = tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.projPos)).r;
@@ -192,11 +225,12 @@ Category {
 				res = lerp(half4(1,1,1,1), res, res.a);
 				UNITY_APPLY_FOG_COLOR(i.fogCoord, res, half4(1,1,1,1)); // fog towards white due to our blend mode
 			#endif
+			
 				return res;
 			}
 			ENDCG 
 		}
 	}	
 }
- CustomEditor "ME_CustomMaterialInspectorParticle"
+	CustomEditor "UIParticleShaderEditor"
 }
