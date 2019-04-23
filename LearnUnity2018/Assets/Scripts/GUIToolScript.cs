@@ -90,5 +90,22 @@ public class GUIToolScript : MonoBehaviour {
 #endif
         }
         GUILayout.EndHorizontal();
+        ShowResolution();
+    }
+
+    void ShowResolution()
+    {
+        GUILayout.Label(Screen.width + "x" + Screen.height);
+        GUILayout.Label(Screen.currentResolution.ToString());
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("add"))
+        {
+            Screen.SetResolution(Screen.width * 2, Screen.height * 2, true);
+        }
+        if (GUILayout.Button("mini"))
+        {
+            Screen.SetResolution(Screen.width / 2, Screen.height / 2, true);
+        }
+        GUILayout.EndHorizontal();
     }
 }
