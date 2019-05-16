@@ -25,13 +25,13 @@ public static class XEditorTools
     /// Draw a distinctly different looking header label
     /// </summary>
 
-    static public bool DrawHeader(string text) { return DrawHeader(text, text, false, NGUISettings.minimalisticLook); }
+    static public bool DrawHeader(string text) { return DrawHeader(text, text, false, false); }
 
     /// <summary>
     /// Draw a distinctly different looking header label
     /// </summary>
 
-    static public bool DrawHeader(string text, string key) { return DrawHeader(text, key, false, NGUISettings.minimalisticLook); }
+    static public bool DrawHeader(string text, string key) { return DrawHeader(text, key, false, false); }
 
     /// <summary>
     /// Draw a distinctly different looking header label
@@ -84,7 +84,7 @@ public static class XEditorTools
     /// Begin drawing the content area.
     /// </summary>
 
-    static public void BeginContents() { BeginContents(NGUISettings.minimalisticLook); }
+    static public void BeginContents() { BeginContents(false); }
 
     static bool mEndHorizontal = false;
 
