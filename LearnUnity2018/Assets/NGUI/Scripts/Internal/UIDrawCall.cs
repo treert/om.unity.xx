@@ -3,7 +3,7 @@
 // Copyright © 2011-2019 Tasharen Entertainment Inc
 //-------------------------------------------------
 
-//#define SHOW_HIDDEN_OBJECTS
+#define SHOW_HIDDEN_OBJECTS
 
 using UnityEngine;
 using System.Collections.Generic;
