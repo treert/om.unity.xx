@@ -33,7 +33,7 @@
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
-                o.pos = UnityApplyLinearShadowBias(o.pos);
+                // o.pos = UnityApplyLinearShadowBias(o.pos);
                 o.depth = o.pos.zw;
                 return o;
             }

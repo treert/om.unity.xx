@@ -64,6 +64,7 @@
                 projCoords = projCoords * 0.5 + 0.5;
                 //projCoords.y = 1 - projCoords.y;
 
+                // 不幸的，Unity关闭了SetBorderColor的接口
                 if (projCoords.x < 0 || projCoords.x > 1) return 1;
                 if (projCoords.y < 0 || projCoords.y > 1) return 1;
                 if (projCoords.z >= 1) return 1;
@@ -72,18 +73,25 @@
 
                 float2 moments = tex2D(_CustomShadowMapTexture, projCoords.xy).rg;
 
-                if (depth <= moments.x) return 1;
+                // if (depth <= moments.x) return 1;
                 // else return 0;// 直接对普通的深度贴图做插值，阴影的边缘像油墨一样，比较怪异。理论上说，ShadowMap是不能做 pre-fliter 的
+                
+                // min_variance和bleeding_reduce，场景相关，参考下面的文章
+                // > http://www.klayge.org/2013/10/07/切换到esm/
 
+                float p_other = (depth < moments.x);
+
+                float min_variance = 0.000002;// 减少诡异的条纹
                 float variance = moments.y - (moments.x * moments.x);
-                // variance = max(variance, 0.00000); // https://www.qiujiawei.com/shadow-1/
-
+                variance = max(variance, min_variance);
+                
                 float depth_minus_mean = depth - moments.x;
                 float p_max = variance / (variance + depth_minus_mean * depth_minus_mean);
 
-                // p_max *= step(p_max, 0.3);
+                float bleeding_reduce = 0.1;// 减小漏光
+                p_max = smoothstep(bleeding_reduce, 1, p_max);
 
-                return p_max;
+                return max(p_other, p_max);
             }
 
             float4 frag(v2f i) :SV_TARGET
