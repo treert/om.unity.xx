@@ -2,33 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LearnShadowVSMMono : MonoBehaviour
+public class LearnShadowESMMono : MonoBehaviour
 {
     public Camera m_camera;
-    //public Transform m_light;
     public RenderTexture m_rt;
     public Shader m_shader;
+
+    public float m_esm_c = 80;
 
     // Start is called before the first frame update
     void Start()
     {
-        Shader.SetGlobalTexture("_CustomShadowMap_VSM", m_rt);
-
+        Shader.SetGlobalTexture("_CustomShadowMap_ESM", m_rt);
         m_camera.SetReplacementShader(m_shader, "RenderType");
     }
 
     // Update is called once per frame
     void Update()
     {
-        //m_camera.transform.position = m_light.transform.position;
-        //m_camera.transform.rotation = m_light.transform.rotation;
-        //m_camera.transform.localScale = m_light.transform.localScale;
-        Shader.SetGlobalMatrix("_Custom_World2Shadow_VSM", m_camera.projectionMatrix * m_camera.worldToCameraMatrix);
+        Shader.SetGlobalMatrix("_Custom_World2Shadow_ESM", m_camera.projectionMatrix * m_camera.worldToCameraMatrix);
+        Shader.SetGlobalFloat("_esm_c", m_esm_c);
     }
 
     private void OnGUI()
     {
-        GUILayout.TextField("VSM");
+        GUILayout.Space(50);
+        GUILayout.TextField("ESM");
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("Replace"))
         {
