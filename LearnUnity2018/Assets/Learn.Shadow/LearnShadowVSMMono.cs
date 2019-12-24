@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LearnShadowMono : MonoBehaviour
+public class LearnShadowVSMMono : MonoBehaviour
 {
     public Camera m_camera;
     //public Transform m_light;
     public RenderTexture m_rt;
     public Shader m_shader;
 
-    public Material m_GaussMat;
-
     // Start is called before the first frame update
     void Start()
     {
-        Shader.SetGlobalTexture("_CustomShadowMapTexture", m_rt);
+        Shader.SetGlobalTexture("_CustomShadowMap_VSM", m_rt);
 
         m_camera.SetReplacementShader(m_shader, "RenderType");
     }
@@ -25,7 +23,7 @@ public class LearnShadowMono : MonoBehaviour
         //m_camera.transform.position = m_light.transform.position;
         //m_camera.transform.rotation = m_light.transform.rotation;
         //m_camera.transform.localScale = m_light.transform.localScale;
-        Shader.SetGlobalMatrix("_Custom_World2Shadow", m_camera.projectionMatrix * m_camera.worldToCameraMatrix);
+        Shader.SetGlobalMatrix("_Custom_World2Shadow_VSM", m_camera.projectionMatrix * m_camera.worldToCameraMatrix);
     }
 
     private void OnGUI()

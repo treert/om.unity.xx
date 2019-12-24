@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 52978862}
   - component: {fileID: 52978864}
   m_Layer: 0
-  m_Name: LearnShadow
+  m_Name: VSMViratualCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,11 +139,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 52978860}
   m_LocalRotation: {x: 0.21183908, y: -0.20494024, z: 0.045483053, w: 0.95449203}
-  m_LocalPosition: {x: 2.5854254, y: 4.770683, z: -16.1036}
+  m_LocalPosition: {x: 2.5854254, y: 4.770683, z: -5.9335995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1771487585}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &52978862
 Camera:
@@ -202,7 +202,6 @@ MonoBehaviour:
   m_camera: {fileID: 52978862}
   m_rt: {fileID: 8400000, guid: 9670538fa2704e74bbd97c4decfd3226, type: 2}
   m_shader: {fileID: 4800000, guid: 08ae4c5fb73f28541a6200d0e2553e9b, type: 3}
-  m_GaussMat: {fileID: 0}
 --- !u!114 &52978864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -435,7 +434,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1771487585}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &532156561
 CapsuleCollider:
@@ -527,7 +526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1771487585}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &967856706
 BoxCollider:
@@ -843,7 +842,7 @@ GameObject:
   - component: {fileID: 1771487583}
   - component: {fileID: 1771487582}
   m_Layer: 8
-  m_Name: Plane (1)
+  m_Name: LearnShadowVSM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,8 +918,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10.17}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 52978861}
   - {fileID: 967856705}
   - {fileID: 532156560}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

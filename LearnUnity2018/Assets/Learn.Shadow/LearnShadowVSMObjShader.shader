@@ -26,8 +26,8 @@
             float4 _Color;
 
             // 全局设置的阴影贴图
-            sampler2D _CustomShadowMapTexture;
-            float4x4 _Custom_World2Shadow;
+            sampler2D _CustomShadowMap_VSM;
+            float4x4 _Custom_World2Shadow_VSM;
 
             struct appdata
             {
@@ -58,7 +58,7 @@
 
             float ShadowCalculation(float3 fragWorldPos) 
             {
-                float4 fragPosLightSpace = mul(_Custom_World2Shadow, float4(fragWorldPos, 1));
+                float4 fragPosLightSpace = mul(_Custom_World2Shadow_VSM, float4(fragWorldPos, 1));
                 float3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
 
                 projCoords = projCoords * 0.5 + 0.5;
@@ -71,7 +71,7 @@
 
                 float depth = projCoords.z;
 
-                float2 moments = tex2D(_CustomShadowMapTexture, projCoords.xy).rg;
+                float2 moments = tex2D(_CustomShadowMap_VSM, projCoords.xy).rg;
 
                 // if (depth <= moments.x) return 1;
                 // else return 0;// 直接对普通的深度贴图做插值，阴影的边缘像油墨一样，比较怪异。理论上说，ShadowMap是不能做 pre-fliter 的
