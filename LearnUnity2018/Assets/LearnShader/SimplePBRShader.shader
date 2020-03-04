@@ -1,4 +1,4 @@
-﻿Shader "Custom/LearnShadow/SimplePBRShader"
+﻿Shader "Custom/SimplePBRShader"
 {
     Properties
     {
@@ -7,16 +7,20 @@
         [Gamma] _Metallic("Metallic", Range(0,1)) = 0
         _Roughness("Roughness", Range(0, 1)) = 0.5
     }
-        SubShader
-        {
-            Tags { "RenderType" = "Opaque"}
-            LOD 200
-            Pass{
-            // 简单PBR实现，平行光+环境光，简单模型
+    SubShader
+    {
+        Tags { "RenderType" = "Opaque"}
+        LOD 200
+        Pass{
+            Tags { "LightMode" = "ForwardBase" }
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            // shadow on 不加默认是关闭的
+            #pragma multi_compile_fwdbase
+                
             #include "UnityCG.cginc"
+            #include "AutoLight.cginc"
             #include "Lighting.cginc"
 
             float4 _Color;
@@ -27,10 +31,6 @@
             float _Roughness;
 
             static const float PI = 3.14159265359;
-            
-            // 全局设置的阴影贴图
-            sampler2D _CustomShadowMap_VSM;
-            float4x4 _Custom_World2Shadow_VSM;
 
             struct appdata
             {
@@ -44,10 +44,11 @@
                 float2 uv : TEXCOORD0;
                 float3 worldNormal : TEXCOORD1;
                 float3 worldPos : TEXCOORD2;
-                // UNITY_FOG_COORDS(2)
+                SHADOW_COORDS(3)
+                UNITY_FOG_COORDS(4)
             };
 
-            v2f vert(appdata_base v)
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.pos = UnityObjectToClipPos(v.vertex);
@@ -55,46 +56,10 @@
 
                 o.worldNormal = mul(v.normal, (float3x3)unity_WorldToObject);// 法线特殊处理
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
+
+                TRANSFER_SHADOW(o);
+                UNITY_TRANSFER_FOG(o, o.pos);
                 return o;
-            }
-
-            // VSM
-            float ShadowCalculation(float3 fragWorldPos)
-            {
-                float4 fragPosLightSpace = mul(_Custom_World2Shadow_VSM, float4(fragWorldPos, 1));
-                float3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-
-                projCoords = projCoords * 0.5 + 0.5;
-                //projCoords.y = 1 - projCoords.y;
-
-                // 不幸的，Unity关闭了SetBorderColor的接口
-                if (projCoords.x < 0 || projCoords.x > 1) return 1;
-                if (projCoords.y < 0 || projCoords.y > 1) return 1;
-                if (projCoords.z >= 1) return 1;
-
-                float depth = projCoords.z;
-
-                float2 moments = tex2D(_CustomShadowMap_VSM, projCoords.xy).rg;
-
-                // if (depth <= moments.x) return 1;
-                // else return 0;// 直接对普通的深度贴图做插值，阴影的边缘像油墨一样，比较怪异。理论上说，ShadowMap是不能做 pre-fliter 的
-
-                // min_variance和bleeding_reduce，场景相关，参考下面的文章
-                // > http://www.klayge.org/2013/10/07/切换到esm/
-
-                float p_other = (depth < moments.x);
-
-                float min_variance = 0.000002;// 减少诡异的条纹
-                float variance = moments.y - (moments.x * moments.x);
-                variance = max(variance, min_variance);
-
-                float depth_minus_mean = depth - moments.x;
-                float p_max = variance / (variance + depth_minus_mean * depth_minus_mean);
-
-                float bleeding_reduce = 0.1;// 减小漏光
-                p_max = smoothstep(bleeding_reduce, 1, p_max);
-
-                return max(p_other, p_max);
             }
 
             float BRDF_D(float3 N, float3 H, float roughness)
@@ -103,8 +68,8 @@
                 float a2 = roughness * roughness;
                 float a4 = a2 * a2;
                 float NdotH = max(dot(N, H), 0);
-                
-                float t1 = (NdotH * NdotH)*(a4 - 1) + 1;
+
+                float t1 = (NdotH * NdotH) * (a4 - 1) + 1;
                 float t2 = PI * t1 * t1;
                 return a4 / t2;
             }
@@ -153,30 +118,28 @@
                 float3 brdf = kD * albedo / PI + specular;
                 return brdf * NdotL;
             };
-           
+
             float4 frag(v2f i) :SV_TARGET
             {
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);// 平行光
                 float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - i.worldPos.xyz);
 
-                float3 albedo = tex2D(_MainTex, i.uv) ;
+                float3 albedo = tex2D(_MainTex, i.uv);
 
                 float3 brdf = BRDF_All(worldNormal, viewDir, worldLightDir, albedo, _Metallic, _Roughness);
                 float3 L0 = brdf * _LightColor0.rgb * _Color;
                 L0 *= PI;// Unity trick, Otherwise, the result is too dark.
 
-                float shadow_pass = ShadowCalculation(i.worldPos);
+                float shadow_pass = SHADOW_ATTENUATION(i);
                 float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
                 float3 color = ambient + shadow_pass * L0;
 
-                //UNITY_APPLY_FOG_COLOR(i.fogCoord, c, fixed4(1,1,1,1));
-                // color = color / (color + 0.001);
+                UNITY_APPLY_FOG(i.fogCoord, color);
                 return float4(color,1);
             }
             ENDCG
         }
-
-        }
-            //FallBack "Diffuse"
+    }
+    FallBack "Diffuse"
 }
