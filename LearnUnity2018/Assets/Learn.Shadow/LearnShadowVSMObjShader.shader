@@ -102,7 +102,7 @@
                 float3 worldNormal = normalize(i.worldNormal);
                 float3 worldLightDir = normalize(_WorldSpaceLightPos0.xyz);// 平行光
 
-                float halfLambert = dot(worldNormal, worldLightDir) * 0.5 + 0.5;
+                float halfLambert = dot(worldNormal, worldLightDir) * 0.5 + 0.5;// 半兰伯特模型会导致物体背后的阴影不真实。
 
                 //halfLambert = saturate(dot(worldNormal, worldLightDir));
 
