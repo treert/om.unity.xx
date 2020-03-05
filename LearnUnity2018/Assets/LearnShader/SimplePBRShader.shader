@@ -110,7 +110,7 @@
                 float G = BRDF_G(N, V, L, roughness);
 
                 float3 kD = 1 - F;
-                //kD *= 1 - metallic;
+                kD *= 1 - metallic;
 
                 float3 DFG = D * F * G;
                 float3 specular = DFG / max(4 * NdotV * NdotL, 0.001);// avoid divide zero
@@ -137,7 +137,7 @@
                 //float3 ambient = UNITY_LIGHTMODEL_AMBIENT.xyz;
                 float3 ambient = ShadeSH9(float4(N, 1));
                 float3 kD = 1 - F;
-                // kD *= 1 - metallic;
+                kD *= 1 - metallic;
                 return skyColor * F + ambient * kD * albedo/* / PI*/;
             }
 
