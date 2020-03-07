@@ -165,6 +165,8 @@
             }
             ENDCG
         }
+
+        UsePass "My/Common/META"
     }
     FallBack "Diffuse"
 }
