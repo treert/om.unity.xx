@@ -19,6 +19,7 @@
             #pragma fragment frag
             // shadow on 不加默认是关闭的
             #pragma multi_compile_fwdbase
+            #pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
                 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
@@ -38,6 +39,7 @@
                 float4 vertex : POSITION;
                 float3 normal : NORMAL;
                 float2 texcoord : TEXCOORD0;
+                float2 uv1 : TEXCOORD1;
             };
 
             struct v2f {
@@ -47,6 +49,9 @@
                 float3 worldPos : TEXCOORD2;
                 SHADOW_COORDS(3)
                 UNITY_FOG_COORDS(4)
+#ifdef LIGHTMAP_ON
+                    float2 uvLM : TEXCOORD5;
+#endif
             };
 
             v2f vert(appdata v)
@@ -60,6 +65,9 @@
 
                 TRANSFER_SHADOW(o);
                 UNITY_TRANSFER_FOG(o, o.pos);
+#ifdef LIGHTMAP_ON
+                o.uvLM = v.uv1.xy * unity_LightmapST.xy + unity_LightmapST.zw;
+#endif
                 return o;
             }
 
@@ -158,7 +166,14 @@
                 float shadow_pass = SHADOW_ATTENUATION(i);
 
                 float3 envColor = Get_EnvColor(worldNormal, viewDir, albedo, _Metallic, _Roughness);
+
                 float3 color = envColor + shadow_pass * L0;
+
+#ifdef LIGHTMAP_ON
+                // add Indirect light from lightmap
+                fixed3 lm = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM));
+                color.rgb += lm;
+#endif
 
                 UNITY_APPLY_FOG(i.fogCoord, color);
                 return float4(color,1);
@@ -168,5 +183,6 @@
 
         UsePass "My/Common/META"
     }
+    // Add Extra Pass: ShadowCaster
     FallBack "Diffuse"
 }
