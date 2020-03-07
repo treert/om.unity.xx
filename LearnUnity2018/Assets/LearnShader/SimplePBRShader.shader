@@ -127,7 +127,7 @@
                 return brdf * NdotL;
             };
 
-            float3 Get_EnvColor(float3 N, float3 V, float3 albedo, float metallic, float roughness)
+            float3 Get_EnvColor(v2f i, float3 N, float3 V, float3 albedo, float metallic, float roughness)
             {
                 // https://github.com/Arcob/UnityPbrRendering/blob/master/Assets/unity%20pbr/Height2.shader
                 // 又瞎调了一遍参数，效果勉强有些的样子，Orz。得找找关于天空盒子之类的文章。
@@ -146,7 +146,13 @@
                 float3 ambient = ShadeSH9(float4(N, 1));
                 float3 kD = 1 - F;
                 kD *= 1 - metallic;
-                return skyColor * F + ambient * kD * albedo/* / PI*/;
+                float3 color = skyColor * F + ambient * kD * albedo/* / PI*/;
+#ifdef LIGHTMAP_ON
+                // add Indirect light from lightmap
+                fixed3 lm = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM));
+                color.rgb += lm * kD * albedo;
+#endif
+                return color;
             }
 
             float4 frag(v2f i) :SV_TARGET
@@ -165,15 +171,9 @@
 
                 float shadow_pass = SHADOW_ATTENUATION(i);
 
-                float3 envColor = Get_EnvColor(worldNormal, viewDir, albedo, _Metallic, _Roughness);
+                float3 envColor = Get_EnvColor(i, worldNormal, viewDir, albedo, _Metallic, _Roughness);
 
                 float3 color = envColor + shadow_pass * L0;
-
-#ifdef LIGHTMAP_ON
-                // add Indirect light from lightmap
-                fixed3 lm = DecodeLightmap(UNITY_SAMPLE_TEX2D(unity_Lightmap, i.uvLM));
-                color.rgb += lm;
-#endif
 
                 UNITY_APPLY_FOG(i.fogCoord, color);
                 return float4(color,1);
