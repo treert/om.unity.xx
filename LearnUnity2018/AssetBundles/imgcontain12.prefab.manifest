@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3250666116
+CRC: 2098438359
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5dcc9f38688bdce693387cf7be99e7a8
+    Hash: 18a1a985b7107641f7e2d946247f5a5c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d176fcac225d12846937ae4dc8d1fd7b
+    Hash: e01e14d8a318b620ce229a4f02239b9c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -26,5 +26,5 @@ ClassTypes:
 Assets:
 - Assets/ABMgr/Res/Prefab/ImgContain12.prefab
 Dependencies:
-- E:/MyGit/om.unity.xx/LearnUnity2018/AssetBundles/bg1.jpg
-- E:/MyGit/om.unity.xx/LearnUnity2018/AssetBundles/uiimg.mat
+- D:/MyGit/om/om.unity.xx/LearnUnity2018/AssetBundles/bg1.jpg
+- D:/MyGit/om/om.unity.xx/LearnUnity2018/AssetBundles/uiimg.mat
