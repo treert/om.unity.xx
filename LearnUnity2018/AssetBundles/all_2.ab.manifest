@@ -1,0 +1,36 @@
+ManifestFileVersion: 0
+CRC: 3909404037
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c6299d09a9594c4030935d5b699e00a5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ac6b8b193522d76e09be4e2bb6dd1c3
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: ff89d7a9a94957346ab0f805fe39d8b1, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/ABMgr/Res/Prefab/ImgContain34.prefab
+- Assets/ABMgr/Res/Img/bg1.jpg
+- Assets/ABMgr/Res/Prefab/ImgContain12.prefab
+Dependencies: []

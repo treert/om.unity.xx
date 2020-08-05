@@ -58,6 +58,12 @@ public class GUIToolScript : MonoBehaviour {
             if(_ab == null)
                 _ab = AssetBundle.LoadFromFile("AssetBundles/imgcontain12.prefab");
         }
+        if (GUILayout.Button("bundle 2 load, conflict"))
+        {
+            var ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
+            var ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
+            // 冲突没有发生，实践证明，AssetBundle加载冲突是以当初打ab时的名字来比较的。
+        }
         if (GUILayout.Button("bundle 2 loadasset"))
         {
             if (_ab != null) _ab_obj = _ab.LoadAllAssets()[0];
@@ -74,6 +80,16 @@ public class GUIToolScript : MonoBehaviour {
                 if (_ab_obj != null) GameObject.Destroy(_ab_obj);
                 _ab = null;
                 _ab_obj = null;
+            }
+        }
+        if (GUILayout.Button("bundle print name"))
+        {
+            AssetBundle[] bundles = Resources.FindObjectsOfTypeAll<AssetBundle>();
+            Debug.Log("number of bundles " + bundles.Length);
+
+            for (int i = 0; i < bundles.Length; i++)
+            {
+                Debug.Log("Bundle: " + bundles[i].name);
             }
         }
         GUILayout.EndHorizontal();

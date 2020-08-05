@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 1939395738
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a3324eb900ba4ade47fb539a414fa895
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: ea5a42e0fd8ea905efa7aa926a3b8944
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/ABMgr/Res/Img/bg1.jpg
+Dependencies: []
