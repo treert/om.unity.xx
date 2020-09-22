@@ -39,6 +39,7 @@ namespace Sirenix.OdinInspector.Editor
 
             BuildTarget platform = EditorUserBuildSettings.activeBuildTarget;
             string assemblyDirectory = Path.Combine("Assets", SirenixAssetPaths.SirenixAssembliesPath);
+            if (Directory.Exists(assemblyDirectory) == false) return;
             string[] aotAssemblies = Directory.GetFiles(Path.Combine(assemblyDirectory, AOTAssemblyFolder), "*.dll");
             string[] jitAssemblies = Directory.GetFiles(Path.Combine(assemblyDirectory, JITAssemblyFolder), "*.dll");
 
