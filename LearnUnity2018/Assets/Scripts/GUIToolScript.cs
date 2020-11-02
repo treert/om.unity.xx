@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,7 +17,9 @@ public class GUIToolScript : MonoBehaviour {
 	}
 
     public GameObject _last_test_mono_obj = null;
-    AssetBundle _ab = null;
+    public AssetBundle _ab = null;
+    public AssetBundle _ab2 = null;
+    public AssetBundle _ab3 = null;
     Object _ab_obj = null;
 
     public GameObject _editor_load_go = null;
@@ -44,57 +47,63 @@ public class GUIToolScript : MonoBehaviour {
         {
             var root = GameObject.Find("Canvas");
             var img_tra = root.transform.Find("ImgContain12/Image1");
-            var img = img_tra.GetComponent<UnityEngine.UI.Image>().sprite;
+            var img = img_tra.GetComponent<UnityEngine.UI.Image>().sprite.texture;
             if(img != null)
             {
-                Resources.UnloadAsset(img);
+                Resources.UnloadAsset(img);// 有些坑，不能用于AB，
+            }
+        }
+        if (GUILayout.Button("loadfromab2"))
+        {
+            if (_ab2)
+            {
+                var root = GameObject.Find("Canvas");
+                var img_tra = root.transform.Find("ImgContain12/Image1");
+                var img = img_tra.GetComponent<UnityEngine.UI.Image>();
+                var sp = _ab2.LoadAsset<Sprite>("Assets/ABMgr/Res/Img/bg1.jpg");
+                print($"sp instanceid {sp.GetInstanceID()}");
+                img.sprite = sp;
             }
         }
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
-        if (GUILayout.Button("bundle 1 loadfromfile"))
+        if (GUILayout.Button("load all ab"))
         {
             if(_ab == null)
                 _ab = AssetBundle.LoadFromFile("AssetBundles/imgcontain12.prefab");
+            if (_ab2 == null)
+                _ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
+            _ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
         }
         if (GUILayout.Button("bundle 2 load, conflict"))
         {
-            var ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
-            var ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
+            _ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
+            _ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
             // 冲突没有发生，实践证明，AssetBundle加载冲突是以当初打ab时的名字来比较的。
         }
-        if (GUILayout.Button("bundle 2 loadasset"))
+        if (GUILayout.Button("unload all ab"))
         {
-            if (_ab != null) _ab_obj = _ab.LoadAllAssets()[0];
-        }
-        if (GUILayout.Button("bundle 3 instantiate"))
-        {
-            if (_ab_obj != null) GameObject.Instantiate(_ab_obj);
-        }
-        if (GUILayout.Button("bundle 3 unload"))
-        {
-            if(_ab != null)
-            {
-                _ab.Unload(true);
-                if (_ab_obj != null) GameObject.Destroy(_ab_obj);
-                _ab = null;
-                _ab_obj = null;
-            }
+            AssetBundle.UnloadAllAssetBundles(true);
+            _ab = null;
+            _ab2 = null;
+            _ab3 = null;
         }
         if (GUILayout.Button("bundle print name"))
         {
-            AssetBundle[] bundles = Resources.FindObjectsOfTypeAll<AssetBundle>();
-            Debug.Log("number of bundles " + bundles.Length);
+            //var bundles = Resources.FindObjectsOfTypeAll<AssetBundle>();// 这个接口不好，多返回了一个。
+            var bundles = AssetBundle.GetAllLoadedAssetBundles();
 
-            for (int i = 0; i < bundles.Length; i++)
+            int i = 0;
+            foreach(var ab in bundles)
             {
-                Debug.Log("Bundle: " + bundles[i].name);
+                Debug.Log($"Bundle {++i,3}: {ab.name}");
             }
         }
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
+
         if(GUILayout.Button("editor loadfromfile"))
         {
 #if UNITY_EDITOR
