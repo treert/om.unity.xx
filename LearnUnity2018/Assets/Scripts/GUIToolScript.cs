@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
 
 public class GUIToolScript : MonoBehaviour {
@@ -20,9 +21,18 @@ public class GUIToolScript : MonoBehaviour {
     public AssetBundle _ab = null;
     public AssetBundle _ab2 = null;
     public AssetBundle _ab3 = null;
-    Object _ab_obj = null;
+    public UnityEngine.Object _ab_obj = null;
 
     public GameObject _editor_load_go = null;
+
+    UnityEngine.UI.Image _GetTestImage()
+    {
+        var root = GameObject.Find("Canvas");
+        var img_tra = root.transform.Find("ImgContain12/Image1");
+        var img = img_tra.GetComponent<UnityEngine.UI.Image>();
+        return img;
+    }
+
     private void OnGUI()
     {
         GUILayout.BeginHorizontal();
@@ -43,26 +53,27 @@ public class GUIToolScript : MonoBehaviour {
                 _last_test_mono_obj = go;
             }
         }
-        if (GUILayout.Button("unloadasset"))
+        if (GUILayout.Button("unload asset"))
         {
-            var root = GameObject.Find("Canvas");
-            var img_tra = root.transform.Find("ImgContain12/Image1");
-            var img = img_tra.GetComponent<UnityEngine.UI.Image>().sprite.texture;
-            if(img != null)
-            {
-                Resources.UnloadAsset(img);// 有些坑，不能用于AB，
-            }
+            Resources.UnloadAsset(_GetTestImage().sprite.texture);// 有些坑，不能用于AB，
+        }
+        if (GUILayout.Button("destry object"))
+        {
+            Object.DestroyImmediate(_ab_obj);
+            var img = _GetTestImage();
+            Object.DestroyImmediate(img);
         }
         if (GUILayout.Button("loadfromab2"))
         {
             if (_ab2)
             {
-                var root = GameObject.Find("Canvas");
-                var img_tra = root.transform.Find("ImgContain12/Image1");
-                var img = img_tra.GetComponent<UnityEngine.UI.Image>();
+                var img = _GetTestImage();
                 var sp = _ab2.LoadAsset<Sprite>("Assets/ABMgr/Res/Img/bg1.jpg");
+                print($"_ab_obj exsit {(_ab_obj ? true : false) }");
+                _ab_obj = _ab2.LoadAsset<GameObject>("ImgContain12");
+                _ab_obj = GameObject.Instantiate(_ab_obj);
                 print($"sp instanceid {sp.GetInstanceID()}");
-                img.sprite = sp;
+                if(img) img.sprite = sp;
             }
         }
         GUILayout.EndHorizontal();
@@ -85,9 +96,10 @@ public class GUIToolScript : MonoBehaviour {
         if (GUILayout.Button("unload all ab"))
         {
             AssetBundle.UnloadAllAssetBundles(true);
-            _ab = null;
-            _ab2 = null;
-            _ab3 = null;
+            // Unity的null判断重载过，不写这些，_ab == null 一样返回true
+            //_ab = null;
+            //_ab2 = null;
+            //_ab3 = null;
         }
         if (GUILayout.Button("bundle print name"))
         {
