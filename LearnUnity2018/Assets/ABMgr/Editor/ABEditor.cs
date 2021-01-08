@@ -68,6 +68,7 @@ public class ABBuild : EditorWindow {
             "Assets/ABMgr/Res/Prefab/ImgContain12.prefab",
             "Assets/ABMgr/Res/Prefab/ImgContain34.prefab",
             "Assets/ABMgr/Res/Img/bg1.jpg",
+            "Assets/ABMgr/Res/Img/bg3.jpg",
         };
         list.Add(bu);
         Directory.CreateDirectory("AssetBundles");
@@ -80,8 +81,6 @@ public class ABBuild : EditorWindow {
         AssetBundleBuild bu = new AssetBundleBuild();
         bu.assetBundleName = "all_3.ab";
         bu.assetNames = new string[] {
-            "Assets/ABMgr/Res/Prefab/ImgContain12.prefab",
-            "Assets/ABMgr/Res/Prefab/ImgContain34.prefab",
             "Assets/ABMgr/Res/Img/bg1.jpg",
         };
         list.Add(bu);
