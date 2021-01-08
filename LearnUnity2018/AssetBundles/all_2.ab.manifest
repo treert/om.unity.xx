@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3909404037
+CRC: 2716231854
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c6299d09a9594c4030935d5b699e00a5
+    Hash: 2a1fd84db423cd66eb5623db78040bd2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ac6b8b193522d76e09be4e2bb6dd1c3
@@ -32,5 +32,6 @@ ClassTypes:
 Assets:
 - Assets/ABMgr/Res/Prefab/ImgContain34.prefab
 - Assets/ABMgr/Res/Img/bg1.jpg
+- Assets/ABMgr/Res/Img/bg3.jpg
 - Assets/ABMgr/Res/Prefab/ImgContain12.prefab
 Dependencies: []
