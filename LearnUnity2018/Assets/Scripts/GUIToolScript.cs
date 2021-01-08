@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Experimental.UIElements;
 using UnityEngine.SceneManagement;
-
+using Image = UnityEngine.UI.Image;
 
 public class MyClass
 {
@@ -48,7 +48,7 @@ public class GUIToolScript : MonoBehaviour {
     void AddRef(UnityEngine.Object obj)
     {
         // 所有的引用都会影响 Resources.UnloadUnusedAssets()
-        MyClass.s_obj = obj;
+        //MyClass.s_obj = obj;
         //my_obj.obj = obj;
         //my_set.Add(obj);
         //my_ref = obj;
@@ -86,7 +86,7 @@ public class GUIToolScript : MonoBehaviour {
             if (_ab2)
             {
                 var img = _GetTestImage();
-                var sp = _ab2.LoadAsset<Sprite>("Assets/ABMgr/Res/Img/bg1.jpg");
+                var sp = _ab2.LoadAsset<Sprite>("Assets/ABMgr/Res/Img/bg2.jpg");
                 print($"sp instanceid {sp.GetInstanceID()} {sp.texture.GetInstanceID()}");
                 if (img)
                 {
@@ -136,6 +136,28 @@ public class GUIToolScript : MonoBehaviour {
                 print("_ab2 is null");
             }
         }
+        if (GUILayout.Button("loadfromab2 prefab"))
+        {
+            if (_ab2)
+            {
+                var img = _GetTestImage();
+                if (img)
+                {
+                    var go = _ab2.LoadAsset<GameObject>("Assets/ABMgr/Res/Prefab/ImgContain34.prefab");
+                    var ab_img = go.transform.Find("Image3").GetComponent<Image>();
+                    var sp = ab_img.sprite;
+                    print($"sp instanceid {sp.GetInstanceID()} {sp.texture.GetInstanceID()}");
+                    AddRef(img.sprite);
+                    img.sprite = null;// 
+                    img.sprite = sp;
+                    //ab_img.sprite = null;// 修改就不对了
+                }
+            }
+            else
+            {
+                print("_ab2 is null");
+            }
+        }
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
         GUILayout.BeginHorizontal();
@@ -175,7 +197,7 @@ public class GUIToolScript : MonoBehaviour {
             var sp = img.sprite;
             print($"sp instanceid {sp.GetInstanceID()} {sp.texture.GetInstanceID()}");
             print($"before unload asset img.sprite={img.sprite == true} img.sprite.texture={img.sprite.texture == true}");
-            Resources.UnloadAsset(img.sprite);
+            //Resources.UnloadAsset(img.sprite);
             Resources.UnloadAsset(img.sprite.texture);// 立即生效。
             // 下面这个日志，会导致内存里还有tex，但是图片已经黑了
             // print($"after unload asset img.sprite={img.sprite==true} img.sprite.texture={img.sprite.texture == true} ");

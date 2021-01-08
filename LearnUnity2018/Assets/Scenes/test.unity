@@ -151,7 +151,10 @@ MonoBehaviour:
   _ab: {fileID: 0}
   _ab2: {fileID: 0}
   _ab3: {fileID: 0}
+  _ab_obj: {fileID: 0}
   _editor_load_go: {fileID: 0}
+  my_ref: {fileID: 0}
+  my_ref2: {fileID: 0}
 --- !u!4 &110303454
 Transform:
   m_ObjectHideFlags: 0
@@ -468,7 +471,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: aadda1fee08894148868842be277e9e6,
+      objectReference: {fileID: 21300000, guid: 8d7bb5c4c33c5d740805bdecf43b8b10,
         type: 3}
     - target: {fileID: 224588240620614582, guid: 61cce237cd74f4241aa04eae204ba767,
         type: 3}
