@@ -18,23 +18,19 @@ public class ABBuild : EditorWindow {
 
     private void OnGUI()
     {
-        GUILayout.BeginHorizontal();
-        if (GUILayout.Button("Build",GUILayout.Width(100)))
+        ShowBtn(TestBuild);
+        ShowBtn(TestBuild2);
+        ShowBtn(TestBuild3);
+        ShowBtn(TestBuild4);
+    }
+
+    void ShowBtn(Action action)
+    {
+        if (GUILayout.Button(action.Method.Name, GUILayout.Width(100)))
         {
-            TestBuild();
+            action();
             EditorUtility.DisplayDialog("提示确认", "确认", "OK");
         }
-        if (GUILayout.Button("Build2", GUILayout.Width(100)))
-        {
-            TestBuild2();
-            EditorUtility.DisplayDialog("提示确认", "确认", "OK");
-        }
-        if (GUILayout.Button("Build3", GUILayout.Width(100)))
-        {
-            TestBuild3();
-            EditorUtility.DisplayDialog("提示确认", "确认", "OK");
-        }
-        GUILayout.EndHorizontal();
     }
 
     void TestBuild()
@@ -86,6 +82,31 @@ public class ABBuild : EditorWindow {
         list.Add(bu);
         Directory.CreateDirectory("AssetBundles");
         var meta = BuildPipeline.BuildAssetBundles("AssetBundles", list.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+    }
+
+    void TestBuild4()
+    {
+        List<AssetBundleBuild> list = new List<AssetBundleBuild>();
+        {
+            AssetBundleBuild bu = new AssetBundleBuild();
+            bu.assetBundleName = "sub/prefab.ab";
+            bu.assetNames = new string[] {
+                "Assets/ABMgr/Res/Prefab/ImgContain12.prefab",
+            };
+            list.Add(bu);
+        }
+        {
+            AssetBundleBuild bu = new AssetBundleBuild();
+            bu.assetBundleName = "sub/img.ab";
+            bu.assetNames = new string[] {
+                "Assets/ABMgr/Res/Img/bg1.jpg",
+            };
+            list.Add(bu);
+        }
+
+        Directory.CreateDirectory("AssetBundles");
+        var meta = BuildPipeline.BuildAssetBundles("AssetBundles", list.ToArray(), BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
+
     }
 
     void EnumObjectsFromDir(string dir, Action<string> cb)

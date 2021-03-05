@@ -215,34 +215,20 @@ public class GUIToolScript : MonoBehaviour {
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("load all ab"))
         {
-            if (_ab == false) _ab = AssetBundle.LoadFromFile("AssetBundles/imgcontain12.prefab");
-            if (_ab2 == false) _ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
-            if (_ab3 == false) _ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
-        }
-        if (GUILayout.Button("bundle 2 load, conflict"))
-        {
-            _ab2 = AssetBundle.LoadFromFile("AssetBundles/all_2.ab");
-            _ab3 = AssetBundle.LoadFromFile("AssetBundles/all_3.ab");
-            // 冲突没有发生，实践证明，AssetBundle加载冲突是以当初打ab时的名字来比较的。
+            _ab = ABMgr.singleton.LoadAB("imgcontain12.prefab");
+            _ab2 = ABMgr.singleton.LoadAB("all_2.ab");
+            _ab3 = ABMgr.singleton.LoadAB("all_3.ab");
+            ABMgr.singleton.LoadAB("sub/prefab.ab");
+            ABMgr.singleton.LoadAB("sub/img.ab");
         }
         if (GUILayout.Button("unload all ab"))
         {
-            AssetBundle.UnloadAllAssetBundles(true);
-            // Unity的null判断重载过，不写这些，_ab == null 一样返回true
-            //_ab = null;
-            //_ab2 = null;
-            //_ab3 = null;
+            ABMgr.singleton.UnloadAllAB();
+            Debug.Log($"_ab == null is {_ab == null}");
         }
         if (GUILayout.Button("bundle print name"))
         {
-            //var bundles = Resources.FindObjectsOfTypeAll<AssetBundle>();// 这个接口不好，多返回了一个。
-            var bundles = AssetBundle.GetAllLoadedAssetBundles();
-
-            int i = 0;
-            foreach(var ab in bundles)
-            {
-                Debug.Log($"Bundle {++i,3}: {ab.name}");
-            }
+            ABMgr.singleton.LogSomeInfo();
         }
         GUILayout.EndHorizontal();
         GUILayout.Space(10);
