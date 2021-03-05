@@ -1,7 +1,11 @@
 ManifestFileVersion: 0
-CRC: 4226053659
+CRC: 2183930531
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: all_3.ab
+      Name: sub/prefab.ab
+      Dependencies:
+        Dependency_0: sub/img.ab
+    Info_1:
+      Name: sub/img.ab
       Dependencies: {}
