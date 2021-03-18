@@ -1,0 +1,127 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AcFunMeme
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Standalone
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 12
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 07874c89e3699a34da601576baa90ed1, type: 3}
+    - {fileID: 102900000, guid: d593b15634a166b4fada58414e9086a8, type: 3}
+    totalSpriteSurfaceArea: 604500
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 07083ed03b4cf0040889384078c4335f, type: 3}
+  - {fileID: 21300000, guid: 5d0b88c110955fd4cb26b9d94c997566, type: 3}
+  - {fileID: 21300000, guid: 0200e42267016274e91e7fdb367df639, type: 3}
+  - {fileID: 21300000, guid: d135f952016399240b5ef4afa0b6736b, type: 3}
+  - {fileID: 21300000, guid: 93b910a213facb54f9ca74eb70af8470, type: 3}
+  - {fileID: 21300000, guid: feb14bb46fb4e4e469e50c278bebcc7a, type: 3}
+  - {fileID: 21300000, guid: c3d0e1f4a00fca34887d2d21c69272b9, type: 3}
+  - {fileID: 21300000, guid: 7a3dd81579a2c314389b3d8b785ee0b6, type: 3}
+  - {fileID: 21300000, guid: f4242cd5b1aa72c48970f4f8dd92b348, type: 3}
+  - {fileID: 21300000, guid: 4ffb23160e3e3aa4388f1ef21cbac393, type: 3}
+  - {fileID: 21300000, guid: ed65c0c6433fe3f47b040c9feb83f3a6, type: 3}
+  - {fileID: 21300000, guid: 7ee02c27f0f31b4408d4183d09c03dfa, type: 3}
+  - {fileID: 21300000, guid: 62b05c9883f5f064e8e755b7153da909, type: 3}
+  - {fileID: 21300000, guid: 831ca4d8388b54149b30bf3446659b1d, type: 3}
+  - {fileID: 21300000, guid: a2eb00f8e568c9e428a6b1160eeef45e, type: 3}
+  - {fileID: 21300000, guid: 9d7bf6690ad751b429940a42f1e56591, type: 3}
+  - {fileID: 21300000, guid: 634b70b9dba9f304d89ab72cac2663f6, type: 3}
+  - {fileID: 21300000, guid: b834dde953a4a0e4e937b6a0b5bac7c6, type: 3}
+  - {fileID: 21300000, guid: 5fda46f93c9b5684abebea9a10b975b1, type: 3}
+  - {fileID: 21300000, guid: df04ae5a337885f42a1b0bcb3769571b, type: 3}
+  - {fileID: 21300000, guid: 2d08549ab1817394aa91d2ac902ca08e, type: 3}
+  - {fileID: 21300000, guid: 7a4261eab855cce43975aacb43d63f44, type: 3}
+  - {fileID: 21300000, guid: fee110fa010bcdc40b08e59c2d34e4d6, type: 3}
+  - {fileID: 21300000, guid: a86c0dfa488e5ea449c7222c7bf9ecda, type: 3}
+  - {fileID: 21300000, guid: a9ed975b896765b42a92aeb807f4ec3c, type: 3}
+  - {fileID: 21300000, guid: 92b30afb982e7744f8237331ab9f6d88, type: 3}
+  - {fileID: 21300000, guid: de99096d31829324c98f0ca4477a5f05, type: 3}
+  - {fileID: 21300000, guid: 2bfa592e35c1759479bbc40bfeb11c4c, type: 3}
+  - {fileID: 21300000, guid: aea46f2eb75536449971677670d4d2ab, type: 3}
+  - {fileID: 21300000, guid: 06cf5e8edfa338d409f6c6810d0478d0, type: 3}
+  - {fileID: 21300000, guid: f792108f47d5f5747bfa677fed5269ed, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - "18 \u4E27\u5931"
+  - "30 \u597D\u6837\u7684"
+  - "38 \u5531\u6B4C"
+  - "23 \u51B2\u5427\u5C11\u5E74"
+  - "16 \u7761"
+  - 40
+  - "24 \u9ED1\u8138"
+  - "17 \u4E27\u5931"
+  - "25 \u7701\u89C6"
+  - "28 \u6012"
+  - 34
+  - "21 \u6492\u82B1"
+  - "33 \u90AA\u6076"
+  - "12 \u559D\u8336"
+  - "19 \u52A0\u6CB9"
+  - "27 \u597D\u75DB"
+  - "32 \u8BF4\u574F\u8BDD"
+  - "22 \u4EAE\u778E\u4F60"
+  - "36 \u4E2D\u6BD2\u6D41\u8840"
+  - "15 \u9B54\u6CD5\u5E08"
+  - "14 \u51B7\u6C57"
+  - "26 \u53F9\u6C14"
+  - 37
+  - "11 \u53D1\u597D\u4EBA\u5361"
+  - "35 \u8214\u68D2\u68D2\u7CD6"
+  - "10 \u54C8\u6C14"
+  - "31 \u60CA\u8BE7"
+  - "29 \u8981\u54ED"
+  - "20 \u8C03\u76AE"
+  - "13 \u53F9\u6C14"
+  - "39 \u5F3A\u989C\u6B22\u7B11"
+  m_Tag: AcFunMeme
+  m_IsVariant: 0
