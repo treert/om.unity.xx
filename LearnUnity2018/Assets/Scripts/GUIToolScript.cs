@@ -245,6 +245,21 @@ public class GUIToolScript : MonoBehaviour {
 #endif
         }
         GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        if(GUILayout.Button("Editor Image Material"))
+        {
+            Image img = _GetTestImage();
+            img.material.SetVector("_Color", new Vector4(1, 0.5f, 0.5f, 1));
+            //img.material.color = new Vector4(1, 0.5f, 0.5f, 1);
+        }
+        if (GUILayout.Button("Editor Image Material clone"))
+        {
+            Image img = _GetTestImage();
+            img.material = GameObject.Instantiate<Material>(img.material);
+            img.material.SetVector("_Color", new Vector4(1, 0.5f, 0.5f, 1));
+            //img.material.color = new Vector4(1, 0.5f, 0.5f, 1);
+        }
+        GUILayout.EndHorizontal();
         ShowResolution();
     }
 
