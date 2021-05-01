@@ -26,7 +26,6 @@ public class MonoDemo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     [ContextMenu("CallFunc_1")]

@@ -23,15 +23,22 @@ public class TestPrefabEditor : EditorWindow
         EditorGUILayout.TextField("go.id", $"{(go ? go.GetInstanceID() : 0)}");
         ShowBtn(CreatePrefab);
         ShowBtn(LoadPrefab);
+        ShowBtn(UnloadPrefab);
+        ShowBtn(InstancePrefab);
         ShowBtn(EditorPrefab);
         ShowBtn(SavePrefab);
         ShowBtn(RevertPrefab);
         ShowBtn(OverwritePrefab);
 
+        
+
         GUILayout.Space(20);
         ShowBtn(DestroyGo);
         ShowBtn(DestroyImmediateGo);
         ShowBtn(DestroyImmediateGoWithAsset);
+
+        GUILayout.Space(20);
+        ShowBtn(RefreshAssetDatabase);
     }
 
     void ShowBtn(Action action)
@@ -41,6 +48,11 @@ public class TestPrefabEditor : EditorWindow
             action();
             //EditorUtility.DisplayDialog("提示确认", "确认", "OK");
         }
+    }
+
+    void RefreshAssetDatabase()
+    {
+        AssetDatabase.Refresh();
     }
 
     string test_path = "Assets/Temp/test.prefab";
@@ -69,6 +81,14 @@ public class TestPrefabEditor : EditorWindow
         }
     }
 
+    /// <summary>
+    /// 不是实例化的情况下：【坑，也许未来Unity会改掉】
+    /// 1. 如果在Inspector窗口查看Prefab属性，这里编辑的内容会自动刷新写到磁盘里。
+    /// 2. 修改的是Library里的文件，关闭Unity也会在磁盘上有修改，当在UnityEditor里选中Prafab查看Inspector时，会触发刷新写入Assets目录。
+    ///     - ReImport不会触发
+    /// 3. 没找到接口，回滚修改！！！难道没办法回头了吗？
+    /// > https://forum.unity.com/threads/how-do-i-edit-prefabs-from-scripts.685711/
+    /// </summary>
     void EditorPrefab()
     {
         if (go)
