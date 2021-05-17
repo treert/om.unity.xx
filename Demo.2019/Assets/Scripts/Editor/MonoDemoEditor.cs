@@ -28,11 +28,6 @@ public class MonoDemoEditor: Editor
         m_target = target as MonoDemo;
     }
 
-    void f()
-    {
-        GUIContent a;
-    }
-
     public override void OnInspectorGUI()
     {
         //EditorGUILayout.SelectableLabel("test");
