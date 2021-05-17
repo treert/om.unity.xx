@@ -260,6 +260,16 @@ public class GUIToolScript : MonoBehaviour {
             //img.material.color = new Vector4(1, 0.5f, 0.5f, 1);
         }
         GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("TestStatic"))
+        {
+            XTest.TestStatic.Hello();
+        }
+        if (GUILayout.Button("TestStatic2"))
+        {
+            XTest.TestStatic2.Hello();
+        }
+        GUILayout.EndHorizontal();
         ShowResolution();
     }
 

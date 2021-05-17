@@ -30,7 +30,7 @@ public class MonoDemoEditor: Editor
 
     void f()
     {
-        
+        GUIContent a;
     }
 
     public override void OnInspectorGUI()

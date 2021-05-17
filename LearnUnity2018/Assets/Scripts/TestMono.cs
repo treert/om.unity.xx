@@ -15,6 +15,6 @@ public class TestMono : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log($"TestMono Update");
+        //Debug.Log($"TestMono Update");
     }
 }
