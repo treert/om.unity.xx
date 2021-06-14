@@ -109,7 +109,7 @@ public class DemoWindowsEditor : EditorWindow
             _reorder_list.drawElementCallback = (Rect rect, int index, bool isActive, bool isFocused) =>
             {
                 var element = _reorder_list.list[index];
-                var str = string.Format("rect={0} index={1} isActive={2} isFocused={3} value={4}", rect, index, isActive, isFocused, element);
+                var str = string.Format("rect={0} index={1} isActive={2} isFocused={3} value={4} list={5}", rect, index, isActive, isFocused, element, list[index]);
                 //EditorGUILayout.PrefixLabel(str);
                 Rect r = rect;
                 r.width = 16;
