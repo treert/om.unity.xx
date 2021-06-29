@@ -8,6 +8,32 @@ using System;
 
 public class TestPrefabEditor : EditorWindow
 {
+
+    [MenuItem("GameObject/TestPrefabEditor/Clear HideFlag", priority = 10)]
+    static void _ClearHideFlag()
+    {
+        var root = Selection.activeGameObject;
+        if (!root) return;
+
+        ShowInfoAndClearHideFlag(root);
+
+        void ShowInfoAndClearHideFlag(GameObject go)
+        {
+            Debug.Log(go.hideFlags, go);
+            var coms = go.GetComponents<MonoBehaviour>();
+            foreach (var com in coms)
+            {
+                Debug.Log($"{com.name} {com.hideFlags} {com.GetType()}", com);
+                com.hideFlags = HideFlags.None;
+            }
+            go.hideFlags = HideFlags.None;
+            foreach (Transform ch in go.transform)
+            {
+                ShowInfoAndClearHideFlag(ch.gameObject);
+            }
+        }
+    }
+
     [MenuItem("OM/TestPrefabEditor", priority = 1)]
     static void OpenWin()
     {
