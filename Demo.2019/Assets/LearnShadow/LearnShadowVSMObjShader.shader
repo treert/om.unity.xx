@@ -60,7 +60,8 @@
             float ShadowCalculation(float3 fragWorldPos) 
             {
                 float4 fragPosLightSpace = mul(_Custom_World2Shadow_VSM, float4(fragWorldPos, 1));
-                float3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+                float3 projCoords = fragPosLightSpace.xyz;
+                // float3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;// 正交投影不需要这一步
 
                 projCoords = projCoords * 0.5 + 0.5;
                 //projCoords.y = 1 - projCoords.y;
