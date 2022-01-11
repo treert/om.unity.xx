@@ -6,6 +6,10 @@
         _MainTex("Albedo (RGB)", 2D) = "white" {}
         [Gamma] _Metallic("Metallic", Range(0,1)) = 0
         _Glossiness("Smothness", Range(0, 1)) = 0.5 // 方便对比Standard
+
+        [Header(Control Whether Use G)]
+        [KeywordEnum(NDF,DF,DF2)]
+        _T("TestMode",Float) = 0
         //_Roughness("Roughness", Range(0, 1)) = 0.5
     }
     SubShader
@@ -20,6 +24,7 @@
             // shadow on 不加默认是关闭的
             #pragma multi_compile_fwdbase
             #pragma multi_compile LIGHTMAP_OFF LIGHTMAP_ON
+            #pragma multi_compile _T_NDF _T_DF _T_DF2
                 
             #include "UnityCG.cginc"
             #include "AutoLight.cginc"
@@ -122,6 +127,11 @@
 
                 float3 DFG = D * F * G;
                 float3 specular = DFG / max(4 * NdotV * NdotL, 0.001);// avoid divide zero
+                #if _T_DF2
+                specular = D*F;
+                #elif _T_DF
+                specular = D*F / max(4 * NdotV * NdotL, 0.001);
+                #endif
 
                 float3 brdf = kD * albedo / PI + specular;
                 return brdf * NdotL;
